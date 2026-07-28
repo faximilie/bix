@@ -2,6 +2,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
     spilltea.url = "github:anotherhadi/spilltea";
     stylix = {
       url = "github:nix-community/stylix";
@@ -22,6 +26,7 @@
     nixpkgs,
     spilltea,
     home-manager,
+    flake-utils,
     nix-doom-emacs-unstraightened,
     ...
   }: {
