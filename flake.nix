@@ -16,7 +16,7 @@
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
       inputs = {
-        #doomdir.url = "git+https://github.com/faximilie/quakemacs.git";
+      doomdir.url = "github:faximilie/quakemacs";
       };
     };
   };
