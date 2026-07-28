@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    flake-parts.url = "github:hercules-ci/flake-parts";
     hypr-lua.url = "github:SatelliteDish/hypr-lua";
     spilltea.url = "github:anotherhadi/spilltea";
     stylix = {
@@ -22,7 +21,6 @@
   };
   outputs = inputs@{
     nixpkgs,
-    flake-parts,
     spilltea,
     home-manager,
     nix-doom-emacs-unstraightened,
