@@ -34,11 +34,7 @@
 
     waybar.enable = true;
 
-    # emacs.enable = true;
-    doom-emacs = {
-      enable = true;
-      doomDir = "github:faximilie/quakemacs";
-    };
+    emacs.enable = true;
     
 
     afew.enable = true;
