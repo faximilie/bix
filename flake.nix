@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    hypr-lua.url = "github:SatelliteDish/hypr-lua";
     spilltea.url = "github:anotherhadi/spilltea";
     stylix = {
       url = "github:nix-community/stylix";
