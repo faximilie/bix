@@ -6,11 +6,11 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # home-manager.nixosModules.default
-    ];
+  #imports =
+  #  [ # Include the results of the hardware scan.
+  #    ./hardware-configuration.nix
+  #    # home-manager.nixosModules.default
+  #  ];
 
   # Bootloader.
   boot = {
@@ -138,6 +138,29 @@
 
   # Configure keymap in X11
   services = {
+    locate = {
+      enable = true;
+      package = pkgs.plocate;
+      interval = "hourly";
+      pruneNames = [
+        "*.pyc"
+        "*.pyo"
+        ".DS_Store"
+        ".Trash-"
+        ".bzr"
+        ".cache"
+        ".cargo"
+        ".class"
+        ".git"
+        ".hg"
+        ".local"
+        ".svn"
+        ".thumbnail"
+        "argo"
+        "node_modules"
+        "ower_components"
+      ];
+    };
     tailscale.enable = true;
     xserver = {
       videoDrivers = ["nvidia"];
@@ -154,16 +177,6 @@
     description = "Faxy";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      discord
-      lutris
-      steam-run
-      keepassxc
-      xivlauncher
-      signal-desktop
-      # hyprpwcenter
-      pwvucontrol
-      broot
-      yazi
     ];
   };
   # home-manager.users."faxy" = { pkgs, ... }: {
@@ -181,11 +194,6 @@
   security.polkit.enable = true;
 
   programs = {
-    hyprland = {
-      enable = false;
-      withUWSM = true;
-      xwayland.enable = true;
-    };
     uwsm.enable = false;
     steam = {
       enable = true;
@@ -206,11 +214,27 @@
     # '';
 
     systemPackages = with pkgs; [
-      neovim
-      wget
-      kitty
+      # I don't want to ever be without
+      coreutils
+      
+      # Required build tools
+      curl wget
       git
-      # spilltea.packages.${pkgs.system}.default
+      gcc gnumake libtool
+
+      # Basic archive support
+      zip unzip gnutar
+
+      # GPG for verifying files
+      gnupg
+
+      # I need an editor
+      neovim
+
+      # Networking stuff
+      networkmanager
+      tailscale
+
     ];
   };
   # Some programs need SUID wrappers, can be configured further or are
@@ -241,7 +265,18 @@
 
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://doom-emacs-unstraightened.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    trusted-public-keys = [
+      "doom-emacs-unstraightened.cachix.org-1:O5oOlRPnmQEvVaFyuMTmthCEooHbrg54WgSLR07tmg4="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+    experimental-features = [ "nix-command" "flakes" ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

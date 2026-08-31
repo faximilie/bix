@@ -1,55 +1,62 @@
 {
+  description = "";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-    spilltea.url = "github:anotherhadi/spilltea";
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    # import-tree.url = "github:vic/import-tree";
+    # flake-compat.url = "github:edolstra/flake-compat";
+    # flake-parts.url = "github:hercules-ci/flake-parts";
+    # flake-utils.url = "github:numtide/flake-utils";
+
+    # spilltea.url = "github:anotherhadi/spilltea";
+    # stylix = {
+    #   url = "github:nix-community/stylix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # nur = {
+    #   url = "github:nix-community/NUR";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
       inputs = {
-      doomdir.url = "github:faximilie/quakemacs";
+        doomdir.url = "github:faximilie/quakemacs/doom-emacs-unstraightened";
       };
     };
   };
-  outputs = inputs@{
-    nixpkgs,
-    spilltea,
-    home-manager,
-    flake-utils,
-    nix-doom-emacs-unstraightened,
-    ...
-  }: {
-    nixosConfigurations.fred-nerk = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
-      system = "x86_64-linux";
-      modules = with inputs; [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager {
-	  home-manager.useGlobalPkgs = true;
-	  home-manager.useUserPackages = true;
-          home-manager.users.faxy = ./home.nix;
-        }
-      ];
+  outputs = inputs@{ nixpkgs, home-manager, nix-doom-emacs-unstraightened, ... }:
+    {
+      nixosConfigurations.fred-nerk = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules =  with inputs; [
+          # (inputs.import-tree ./mods)
+          ./mods/default.nix
+          ./mods/hardware.nix
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.faxy = { pkgs, ... }: {
+                imports = [ ./home.nix
+                            inputs.nix-doom-emacs-unstraightened.homeModule
+                          ];
+              };
+            };
+          }
+        ];
+      };
+      homeConfigurations."faxy" = inputs.home-manager.lib.homeMangerConfiguration {
+        home-manager.extraSpecialArgs = {inherit inputs;}; 
+        modules = with inputs; [
+          # nix-doom-emacs-unstraightened.homeModule
+          ./home.nix
+          # nix-doom-emacs-unstraigtened.homeModule
+        ];
+      };
     };
-    homeConfigurations."faxy" = home-manager.lib.homeManagerConfiguration {
-      inherit nixpkgs;
-      home-manager.extraSpecialArgs = { inherit inputs; };
-      modules = with inputs; [
-        ./home.nix
-        nix-doom-emacs-unstraightened.homeModule
-        stylix.nixOsModules.stylix
-      ];
-    };
-  };
+  #(inputs.import-tree ./mods).mkFlake { inherit inputs; } (inputs.import-tree ./mods);
+  # lib = import ./lib {inherit (inputs) nixpkgs;};
 }

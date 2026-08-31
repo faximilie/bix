@@ -1,7 +1,41 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, config, lib, ... }:
 
 {
+  # xdg.configFile."raffi/raffi.yaml".source = (pkgs.formats.yaml {}).generate "raffi.yaml" {
+  #   version = 1;
+  #   launchers = {
+  #     firefox = {
+  #       binary = "firefox";
+  #       icon = "firefox";
+  #       description = "Firefox Web Browser";
+  #     };
+  #     terminal = {
+  #       binary = "wezterm";
+    
+  #   icon = "org.wezfurlong.wezterm";
+  #       description = "WezTerm";
+  #     };
+  #     file_manager = {
+  #       binary = "wezterm";
+  #       args = ["start --class 'org.wezfurlong.wezterm.floating' -- y"];
+  #       icon = "folder";
+  #       description = "File Manager";
+  #     };
+  #   };
+  # };
   imports = [
+    # inputs.nix-doom-emacs-unstraightened
+    # inputs.nix-doom-emacs-unstraightened.homeModule
+    # inputs.home-manager.nixosModules.home-manager {
+    #   home-manager.useGlobalPkgs = true;
+    #   home-manager.useUserPackages = true;
+    #   home-manager.extraSpecialArgs = { inherit inputs; };
+    #   home-manager.users.faxy = {
+    #     imports = [
+    #       # ./home.nix
+    #     ];
+    #   };
+    # }
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -11,11 +45,24 @@
     preferXdgDirectories = true;
     stateVersion = "26.05";
     packages = with pkgs; [
-        sway-contrib.grimshot
-        fastfetch
-        telegram-desktop
-        bolt-launcher
-        discord
+      (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+      bolt-launcher
+      xivlauncher
+
+      steam-run
+      lutris
+
+      sway-contrib.grimshot
+      fastfetch
+      pwvucontrol
+      broot
+      cachix
+      keepassxc
+
+      raffi
+
+      telegram-desktop
+      signal-desktop
       ];
   };
 
@@ -23,19 +70,16 @@
 
 
   services = {
-    hyprlauncher.enable = false;
     tailscale-systray.enable = true;
-    emacs.enable = false;
+    emacs.enable = true;
   };
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+    doom-emacs.enable = true;
 
 
     waybar.enable = true;
-
-    emacs.enable = true;
-    
 
     afew.enable = true;
     khal.enable = true;
@@ -62,24 +106,50 @@
     fd.enable = true;
     jq.enable = true;
     jqp.enable = true;
+  };
 
 
   wayland.windowManager.sway = {
     enable = true;
-    systemd = {
-      enable = true;
-      dbusImplementation = config.services.dbus.implementation or "broker";
-    };
+    systemd.enable = true;
     wrapperFeatures.gtk = true;
-    config = with lib; let e = p: { __functor = _: a: "${getExe p} ${toString a}"; __toString =
- _: getExe p; }; in with pkgs; rec {
+    # config = with lib; let e = p: { __functor = _: a: "${getExe p} ${toString a}"; __toString = _: getExe p; }; in with pkgs; rec {
+    config = with pkgs; with lib; let
       modifier = "Mod4";
-      # Use kitty as default terminal
-      terminal = "${lib.getExe pkgs.wezterm}";
+      terminal = "${getExe wezterm}";
+      launcher = "${getExe raffi}";
+      grimshot = "${getExe sway-contrib.grimshot} copy anything";
+    in {
+      modifier = modifier;
+      terminal = terminal;
       startup = [
         # Launch Firefox on start
         { command = "firefox"; }
       ];
+      keybindings = {
+        "${modifier}+Return" = "exec ${terminal}";
+        "${modifier}+p" = "exec ${launcher}";
+
+        "${modifier}+h" = "focus left";
+        "${modifier}+j" = "focus down";
+        "${modifier}+k" = "focus up";
+        "${modifier}+l" = "focus right";
+        "${modifier}+Shift+h" = "move left";
+        "${modifier}+Shift+j" = "move down";
+        "${modifier}+Shift+k" = "move up";
+        "${modifier}+Shift+l" = "move right";
+
+        "${modifier}+Shift+c" = "fullscreen";
+        "${modifier}+space" = "floating toggle";
+        "${modifier}+Shift+space" = "sticky toggle";
+
+        "${modifier}+Print" = "exec ${grimshot}";
+      } // lists.foldr (x: y: x // y) {} (map
+          (i: {
+            "${modifier}+${toString i}" = "exec 'swaymsg workspace ${toString i}'";
+            "${modifier}+Shift+${toString i}" = "exec 'swaymsg move container to workspace ${toString i}'";
+          })
+        (lib.range 0 9));
     };
   };
 }
