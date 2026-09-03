@@ -200,7 +200,6 @@
   security.polkit.enable = true;
 
   programs = {
-    uwsm.enable = false;
     nix-index.enable = true;
 
     neovim.defaultEditor = true;
@@ -209,6 +208,9 @@
       enable = true;
       userService.enable = true;
     };
+
+    uwsm.enable = true;
+
     steam = {
       enable = true;
       extraCompatPackages = with pkgs; [
