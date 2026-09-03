@@ -242,12 +242,34 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment = {
+  environment= {
     # loginShellInit = ''
     #   if uwsm check may-start; then
     #     exec uwsm start default
     #   fi
     # '';
+    variables = let
+      editor = "${lib.getExe pkgs.neovim}";
+    in rec {
+
+
+      XDG_LOCAL_HOME="$HOME/.local";
+      XDG_CACHE_HOME  = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME   = "$HOME/.local/share";
+      XDG_SRC_HOME   = "$HOME/.local/src";
+      XDG_STATE_HOME  = "$HOME/.local/state";
+
+      # Not officially in the specification
+      XDG_BIN_HOME    = "$HOME/.local/bin";
+      PATH = [ 
+        "${XDG_BIN_HOME}"
+      ];
+
+      EDITOR = editor;
+      VISUAL = editor;
+      SUDO_EDITOR = editor;
+    }; #// lib.genAttrs ["EDITOR" "VISUAL" "SUDO_EDITOR"] (_: editor);
 
     systemPackages = with pkgs; [
       # I don't want to ever be without
