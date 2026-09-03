@@ -94,7 +94,6 @@
     enable = true;
     systemd.enable = true;
     wrapperFeatures.gtk = true;
-    # config = with lib; let e = p: { __functor = _: a: "${getExe p} ${toString a}"; __toString = _: getExe p; }; in with pkgs; rec {
     config = with pkgs; with lib; let
       modifier = "Mod4";
       terminal = "${getExe wezterm}";
@@ -104,7 +103,6 @@
       modifier = modifier;
       terminal = terminal;
       startup = [
-        # Launch Firefox on start
         { command = "firefox"; }
       ];
       keybindings = {

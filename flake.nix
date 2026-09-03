@@ -19,6 +19,7 @@
     #   url = "github:nix-community/NUR";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
       inputs = {
@@ -51,12 +52,8 @@
       homeConfigurations."faxy" = inputs.home-manager.lib.homeMangerConfiguration {
         home-manager.extraSpecialArgs = {inherit inputs;}; 
         modules = with inputs; [
-          # nix-doom-emacs-unstraightened.homeModule
           ./home.nix
-          # nix-doom-emacs-unstraigtened.homeModule
         ];
       };
     };
-  #(inputs.import-tree ./mods).mkFlake { inherit inputs; } (inputs.import-tree ./mods);
-  # lib = import ./lib {inherit (inputs) nixpkgs;};
 }
