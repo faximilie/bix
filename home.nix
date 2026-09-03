@@ -76,7 +76,7 @@
 
     freetube.enable = true;
     discord.enable = true;
-    firefox.enable = true;
+    librewolf.enable = true;
     
 
     bash = {
