@@ -54,7 +54,8 @@
     emacs.enable = true;
   };
   programs = {
-    # Let Home Manager install and manage itself.
+    neovide.enable = true;
+    neovim.enable = true;
     home-manager.enable = true;
     doom-emacs.enable = true;
 
