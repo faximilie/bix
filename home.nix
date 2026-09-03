@@ -1,44 +1,8 @@
 { pkgs, config, lib, ... }:
 
 {
-  # xdg.configFile."raffi/raffi.yaml".source = (pkgs.formats.yaml {}).generate "raffi.yaml" {
-  #   version = 1;
-  #   launchers = {
-  #     firefox = {
-  #       binary = "firefox";
-  #       icon = "firefox";
-  #       description = "Firefox Web Browser";
-  #     };
-  #     terminal = {
-  #       binary = "wezterm";
-    
-  #   icon = "org.wezfurlong.wezterm";
-  #       description = "WezTerm";
-  #     };
-  #     file_manager = {
-  #       binary = "wezterm";
-  #       args = ["start --class 'org.wezfurlong.wezterm.floating' -- y"];
-  #       icon = "folder";
-  #       description = "File Manager";
-  #     };
-  #   };
-  # };
   imports = [
-    # inputs.nix-doom-emacs-unstraightened
-    # inputs.nix-doom-emacs-unstraightened.homeModule
-    # inputs.home-manager.nixosModules.home-manager {
-    #   home-manager.useGlobalPkgs = true;
-    #   home-manager.useUserPackages = true;
-    #   home-manager.extraSpecialArgs = { inherit inputs; };
-    #   home-manager.users.faxy = {
-    #     imports = [
-    #       # ./home.nix
-    #     ];
-    #   };
-    # }
   ];
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
 
   xdg.desktopEntries.emacsclient = {
     name = "Emacs (Client)";
@@ -84,9 +48,6 @@
       signal-desktop
       ];
   };
-
-
-
 
   services = {
     tailscale-systray.enable = true;
