@@ -136,8 +136,14 @@
 
    };
 
-  # Configure keymap in X11
   services = {
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      wireplumber.enable = true;
+      pulse.enable = true;
+    };
+
     locate = {
       enable = true;
       package = pkgs.plocate;
