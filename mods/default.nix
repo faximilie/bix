@@ -197,13 +197,33 @@
   #   home.stateVersion = "26.05";
   # };
 
-  security.polkit.enable = true;
+  security =  {
+  	polkit.enable = true;
+    rtkit.enable = true;
+    isolate.enable = true;
+    soteria.enable = true;
+  };
 
   programs = {
+
+    readline = {
+      enable = true;
+        variables = {
+          # Enables vi mode
+          editing-mode = "vi";               
+          # Show auto-complete results instantly
+          show-all-if-ambiguous = true;
+          completion-ignore-case = true;
+        };
+    };
     nix-index.enable = true;
 
+    # neovide.enable = true;
+      
     neovim.defaultEditor = true;
     
+
+    #command-not-found.enable = true;
     solaar = {
       enable = true;
       userService.enable = true;
