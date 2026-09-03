@@ -201,6 +201,14 @@
 
   programs = {
     uwsm.enable = false;
+    nix-index.enable = true;
+
+    neovim.defaultEditor = true;
+    
+    solaar = {
+      enable = true;
+      userService.enable = true;
+    };
     steam = {
       enable = true;
       extraCompatPackages = with pkgs; [
