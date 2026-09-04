@@ -58,6 +58,16 @@
     emacs.enable = true;
   };
   programs = {
+    readline = {
+      enable = true;
+      variables = {
+        # Enables vi mode
+        editing-mode = "vi";
+        # Show auto-complete results instantly
+        show-all-if-ambiguous = true;
+        completion-ignore-case = true;
+      };
+    };
     neovide.enable = true;
     neovim.enable = true;
     home-manager.enable = true;

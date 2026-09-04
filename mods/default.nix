@@ -206,15 +206,7 @@
 
   programs = {
 
-    readline = {
       enable = true;
-        variables = {
-          # Enables vi mode
-          editing-mode = "vi";               
-          # Show auto-complete results instantly
-          show-all-if-ambiguous = true;
-          completion-ignore-case = true;
-        };
     };
     nix-index.enable = true;
 
