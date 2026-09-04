@@ -8,7 +8,6 @@
   boot.lanzaboote = {
     measuredBoot = {
       enable = false;
-      pkiBundle = "/var/lib/sbctl";
       pcrs = [
         0 # platform-code: Changes on firmware updates
         1 # platform-config: Changes on basic harware changes
@@ -23,6 +22,7 @@
         # 12 # kernel-config: Meaasures kernel command-line, fixes init=/bin/sh
       ];
     };
+    pkiBundle = "/var/lib/sbctl";
     #configurationLimit = 8;
     autoGenerateKeys.enable = true;
     autoEnrollKeys = {
