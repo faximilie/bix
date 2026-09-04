@@ -37,7 +37,7 @@
     {
       nixosConfigurations.jake-long = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs; moduleClass = "nixos";};
         modules = with inputs; [
           (import-tree ./hosts)
           (import-tree ./mods)
@@ -47,6 +47,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = {inherit inputs; moduleClass = "home";};
               users.faxy = { pkgs, ... }: {
                 imports = [
                   ./mods/desktop/sway.nix
@@ -61,7 +62,7 @@
       };
       homeConfigurations."faxy" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = {inherit inputs; moduleClass = "home";};
         modules = with inputs; [
           ./mods/desktop/sway.nix
           (import-tree ./mods/editor)

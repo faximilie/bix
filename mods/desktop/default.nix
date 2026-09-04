@@ -1,5 +1,5 @@
-{ config, lib, options, pkgs, ... }:
-lib.optionalAttrs (options ? hardware) {
+{ config, lib, moduleClass ? null, pkgs, ... }:
+lib.optionalAttrs (moduleClass == "nixos") {
   time.timeZone = "Australia/Sydney";
 
   i18n.defaultLocale = "en_AU.UTF-8";

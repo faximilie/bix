@@ -1,6 +1,6 @@
-{ lib, options, pkgs, ... }:
+{ lib, moduleClass ? null, pkgs, ... }:
 lib.mkMerge [
-  (lib.optionalAttrs (options ? users) {
+  (lib.optionalAttrs (moduleClass == "nixos") {
     users.users.faxy = {
       isNormalUser = true;
       description = "Faxy";
@@ -8,7 +8,7 @@ lib.mkMerge [
       packages = with pkgs; [ ];
     };
   })
-  (lib.optionalAttrs (options ? home) {
+  (lib.optionalAttrs (moduleClass == "home") {
     home = {
       username = "faxy";
       homeDirectory = "/home/faxy";

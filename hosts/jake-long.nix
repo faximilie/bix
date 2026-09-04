@@ -1,5 +1,5 @@
-{ config, lib, options, pkgs, ... }:
-lib.optionalAttrs (options ? networking) {
+{ config, lib, pkgs, ... }:
+{
   nixpkgs.config.allowUnfree = true;
 
   boot = {

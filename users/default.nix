@@ -1,5 +1,5 @@
-{ lib, options, ... }:
-lib.optionalAttrs (options ? home) {
+{ lib, moduleClass ? null, ... }:
+lib.optionalAttrs (moduleClass == "home") {
   home.preferXdgDirectories = true;
 
   programs = {

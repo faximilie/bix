@@ -1,6 +1,6 @@
-{ lib, options, pkgs, ... }:
+{ lib, moduleClass ? null, pkgs, ... }:
 lib.mkMerge [
-  (lib.optionalAttrs (options ? programs.uwsm) {
+  (lib.optionalAttrs (moduleClass == "nixos") {
     programs.uwsm = {
       enable = true;
       waylandCompositors.sway = {
@@ -11,7 +11,7 @@ lib.mkMerge [
       };
     };
   })
-  (lib.optionalAttrs (options ? home) {
+  (lib.optionalAttrs (moduleClass == "home") {
     programs.waybar.enable = true;
     wayland.windowManager.sway = {
       enable = true;

@@ -1,5 +1,5 @@
-{ lib, options, pkgs, ... }:
-lib.optionalAttrs (options ? boot) {
+{ lib, moduleClass ? null, pkgs, ... }:
+lib.optionalAttrs (moduleClass == "nixos") {
   environment.systemPackages = [
     pkgs.sbctl
   ];
