@@ -16,7 +16,6 @@
   boot = {
     initrd.systemd.network.wait-online.enable = false;
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
   };
