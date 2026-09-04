@@ -42,8 +42,8 @@
           # (inputs.import-tree ./mods)
           ./mods/default.nix
           ./mods/hardware.nix
-          ./mods/security
           lanzaboote.nixosModules.lanzaboote
+          ./mods/security
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
