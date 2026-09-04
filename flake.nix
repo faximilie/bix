@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    import-tree.url = "github:vic/import-tree";
+    import-tree.url = "github:denful/import-tree";
 
     stylix = {
       url = "github:nix-community/stylix";
@@ -38,19 +38,16 @@
       nixosConfigurations.fred-nerk = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
-        modules =  with inputs; [
-          # (inputs.import-tree ./mods)
-          ./mods/default.nix
-          ./mods/hardware.nix
+        modules = with inputs; [
+          (import-tree ./modules)
           lanzaboote.nixosModules.lanzaboote
-          ./mods/security
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               users.faxy = { pkgs, ... }: {
                 imports = [
-                  ./home.nix
+                  (import-tree ./home)
                   inputs.nix-doom-emacs-unstraightened.homeModule
                 ];
               };
@@ -61,7 +58,7 @@
       homeConfigurations."faxy" = inputs.home-manager.lib.homeMangerConfiguration {
         home-manager.extraSpecialArgs = {inherit inputs;}; 
         modules = with inputs; [
-          ./home.nix
+          (import-tree ./home)
         ];
       };
     };
