@@ -2,23 +2,23 @@
   description = "";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs =  {
+    	url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
+    home-manager =  {
+    	url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # import-tree.url = "github:vic/import-tree";
-    # flake-compat.url = "github:edolstra/flake-compat";
-    # flake-parts.url = "github:hercules-ci/flake-parts";
-    # flake-utils.url = "github:numtide/flake-utils";
+    import-tree.url = "github:vic/import-tree";
 
-    # spilltea.url = "github:anotherhadi/spilltea";
-    # stylix = {
-    #   url = "github:nix-community/stylix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    # nur = {
-    #   url = "github:nix-community/NUR";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
       lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
@@ -28,6 +28,7 @@
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
       inputs = {
+        nixpkgs.follows = "nixpkgs";
         doomdir.url = "github:faximilie/quakemacs/doom-emacs-unstraightened";
       };
     };
