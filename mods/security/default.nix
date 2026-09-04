@@ -31,4 +31,10 @@
       autoReboot = true;
     };
   };
+  security =  {
+  	polkit.enable = true;
+    rtkit.enable = true;
+    isolate.enable = true;
+    soteria.enable = true;
+  };
 }

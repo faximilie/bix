@@ -197,13 +197,6 @@
   #   home.stateVersion = "26.05";
   # };
 
-  security =  {
-  	polkit.enable = true;
-    rtkit.enable = true;
-    isolate.enable = true;
-    soteria.enable = true;
-  };
-
   programs = {
 
       enable = true;
