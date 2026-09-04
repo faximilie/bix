@@ -7,12 +7,12 @@
   };
   systemd = {
     network.wait-online.enable = false;
-    services.locate = {
-      enable = true;
-      package = pkgs.plocate;
-      interval = "hourly";
-      pruneNames = [ "*.pyc" "*.pyo" ".DS_Store" ".Trash-" ".bzr" ".cache" ".cargo" ".class" ".git" ".hg" ".local" ".svn" ".thumbnail" "argo" "node_modules" "ower_components" ];
-    };
+  };
+  services.locate = {
+    enable = true;
+    package = pkgs.plocate;
+    interval = "hourly";
+    pruneNames = [ "*.pyc" "*.pyo" ".DS_Store" ".Trash-" ".bzr" ".cache" ".cargo" ".class" ".git" ".hg" ".local" ".svn" ".thumbnail" "argo" "node_modules" "ower_components" ];
   };
   fonts = {
     packages = with pkgs; [ carlito dejavu_fonts ipafont kochi-substitute source-code-pro ttf_bitstream_vera ];
