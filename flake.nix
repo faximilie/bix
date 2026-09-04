@@ -35,11 +35,13 @@
   };
   outputs = inputs@{ nixpkgs, home-manager, nix-doom-emacs-unstraightened, ... }:
     {
-      nixosConfigurations.fred-nerk = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.jake-long = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = with inputs; [
-          (import-tree ./modules)
+          (import-tree ./hosts)
+          (import-tree ./mods)
+          (import-tree ./users)
           lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager {
             home-manager = {
@@ -47,7 +49,9 @@
               useUserPackages = true;
               users.faxy = { pkgs, ... }: {
                 imports = [
-                  (import-tree ./home)
+                  ./mods/desktop/sway.nix
+                  (import-tree ./mods/editor)
+                  (import-tree ./users)
                   inputs.nix-doom-emacs-unstraightened.homeModule
                 ];
               };
@@ -59,7 +63,10 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs;};
         modules = with inputs; [
-          (import-tree ./home)
+          ./mods/desktop/sway.nix
+          (import-tree ./mods/editor)
+          (import-tree ./users)
+          inputs.nix-doom-emacs-unstraightened.homeModule
         ];
       };
     };
