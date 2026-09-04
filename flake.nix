@@ -19,6 +19,11 @@
     #   url = "github:nix-community/NUR";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+    };
+      lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.1.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-doom-emacs-unstraightened = {
       url = "github:marienz/nix-doom-emacs-unstraightened";
@@ -36,6 +41,8 @@
           # (inputs.import-tree ./mods)
           ./mods/default.nix
           ./mods/hardware.nix
+          ./mods/security
+          lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
