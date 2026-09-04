@@ -135,13 +135,14 @@
         "${modifier}+Shift+c" = "fullscreen";
         "${modifier}+space" = "floating toggle";
         "${modifier}+Shift+space" = "sticky toggle";
+        "${modifier}+Shift+q" = "kill";
 
         "${modifier}+Print" = "exec ${grimshot}";
       } // lists.foldr (x: y: x // y) {} (map
-          (i: {
-            "${modifier}+${toString i}" = "exec 'swaymsg workspace ${toString i}'";
-            "${modifier}+Shift+${toString i}" = "exec 'swaymsg move container to workspace ${toString i}'";
-          })
+        (i: {
+          "${modifier}+${toString i}" = "exec 'swaymsg workspace ${toString i}'";
+          "${modifier}+Shift+${toString i}" = "exec 'swaymsg move container to workspace ${toString i}'";
+        })
         (lib.range 0 9));
     };
   };
