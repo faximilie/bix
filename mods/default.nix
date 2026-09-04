@@ -245,7 +245,6 @@
       editor = "${lib.getExe pkgs.neovim}";
     in rec {
 
-
       XDG_LOCAL_HOME="$HOME/.local";
       XDG_CACHE_HOME  = "$HOME/.cache";
       XDG_CONFIG_HOME = "$HOME/.config";
@@ -309,10 +308,10 @@
   networking = {
     nftables.enable = true;
     firewall = {
-       enable = true;
-       trustedInterfaces = [ config.services.tailscale.interfaceName ];
-       allowedUDPPorts = [ config.services.tailscale.port ];
-     };
+      enable = true;
+      trustedInterfaces = [ config.services.tailscale.interfaceName ];
+      allowedUDPPorts = [ config.services.tailscale.port ];
+    };
 
   };
 

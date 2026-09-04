@@ -49,9 +49,10 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.faxy = { pkgs, ... }: {
-                imports = [ ./home.nix
-                            inputs.nix-doom-emacs-unstraightened.homeModule
-                          ];
+                imports = [
+                  ./home.nix
+                  inputs.nix-doom-emacs-unstraightened.homeModule
+                ];
               };
             };
           }
