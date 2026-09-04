@@ -1,5 +1,5 @@
-{ lib, moduleClass ? null, ... }:
-lib.optionalAttrs (moduleClass == "home") {
+{ ... }:
+{
   xdg.desktopEntries.emacsclient = {
     name = "Emacs (Client)";
     genericName = "Text Editor";

@@ -1,5 +1,5 @@
-{ lib, moduleClass ? null, pkgs, ... }:
-lib.optionalAttrs (moduleClass == "nixos") {
+{ lib, pkgs, ... }:
+{
   environment.systemPackages = [
     pkgs.sbctl
   ];

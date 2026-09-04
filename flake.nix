@@ -10,8 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    import-tree.url = "github:denful/import-tree";
-
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,41 +32,47 @@
     };
   };
   outputs = inputs@{ nixpkgs, home-manager, nix-doom-emacs-unstraightened, ... }:
-    {
-      nixosConfigurations.jake-long = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs; moduleClass = "nixos";};
-        modules = with inputs; [
-          (import-tree ./hosts)
-          (import-tree ./mods)
-          (import-tree ./users)
-          lanzaboote.nixosModules.lanzaboote
-          home-manager.nixosModules.home-manager {
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      homeModules = [
+        ./homeModules/desktop/sway.nix
+        ./homeModules/editor/emacs.nix
+        ./homeModules/editor/neovim.nix
+        ./homeModules/faxy.nix
+        ./homeModules/shared.nix
+        nix-doom-emacs-unstraightened.homeModule
+      ];
+      jakeLong = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/jake-long.nix
+          home-manager.nixosModules.home-manager
+          {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = {inherit inputs; moduleClass = "home";};
-              users.faxy = { pkgs, ... }: {
-                imports = [
-                  ./mods/desktop/sway.nix
-                  (import-tree ./mods/editor)
-                  (import-tree ./users)
-                  inputs.nix-doom-emacs-unstraightened.homeModule
-                ];
-              };
+              extraSpecialArgs = {inherit inputs;};
+              users.faxy.imports = homeModules;
             };
           }
         ];
       };
-      homeConfigurations."faxy" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs; moduleClass = "home";};
-        modules = with inputs; [
-          ./mods/desktop/sway.nix
-          (import-tree ./mods/editor)
-          (import-tree ./users)
-          inputs.nix-doom-emacs-unstraightened.homeModule
-        ];
+      faxy = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit inputs;};
+        modules = homeModules;
+      };
+    in {
+      nixosConfigurations = {
+        jake-long = jakeLong;
+        fred-nerk = jakeLong;
+      };
+      homeConfigurations.faxy = faxy;
+      checks.${system} = {
+        nixos-jake-long = jakeLong.config.system.build.toplevel;
+        home-faxy = faxy.activationPackage;
       };
     };
 }
