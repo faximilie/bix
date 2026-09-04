@@ -240,6 +240,7 @@
     #     exec uwsm start default
     #   fi
     # '';
+    localBinInPath = true;
     variables = let
       editor = "${lib.getExe pkgs.neovim}";
     in rec {
