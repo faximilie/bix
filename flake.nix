@@ -55,8 +55,9 @@
           }
         ];
       };
-      homeConfigurations."faxy" = inputs.home-manager.lib.homeMangerConfiguration {
-        home-manager.extraSpecialArgs = {inherit inputs;}; 
+      homeConfigurations."faxy" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs;};
         modules = with inputs; [
           (import-tree ./home)
         ];
